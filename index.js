@@ -19,6 +19,17 @@ app.get('/',function(req,res){
     // res.render("index")
 });
 
+app.get('/delete/:filename', function(req, res) {
+    fs.unlink(`./files/${req.params.filename}`, function(err) {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("Error deleting file");
+        }
+        res.redirect('/');
+    });
+});
+
+
 app.post('/create',function(req,res){
     // console.log(req.body);
     fs.writeFile(`./files/${req.body.title.split(' ').join('')}.txt`,req.body.details,function(err){
